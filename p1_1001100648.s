@@ -26,20 +26,20 @@ _Operand:
     MOV R1, SP                          @ move SP to R1 to store entry of stack
     BL scanf                            @ call scanf
     LDR R0, [SP]                        @ load value at SP into R0
-    ADD SP, SP, #4                      
-    MOV PC, R4                          
+    ADD SP, SP, #4                      @ remove value from stack
+    MOV PC, R4                          @ return
     
 _Operation_Code:
-    MOV R4, LR
-    SUB SP, SP #4
-    LDR R0, =Operation_Code_Prompt
-    BL printf
-    LDR R0, =Input_Operator
-    MOV R1, SP
-    BL scanf
-    LDR R0, [SP]
-    ADD SP, SP, #4
-    MOV PC, R4
+    MOV R4, LR                          @ store LR since printf call overwrites
+    SUB SP, SP #4                       @ make room for stack
+    LDR R0, =Operation_Code_Prompt      @ R0 contains formatted string address
+    BL printf                           @ call printf
+    LDR R0, =Input_Operator             @ R0 contains formatted string address
+    MOV R1, SP                          @ move SP to R1 to store entry of stack
+    BL scanf                            @ call scanf
+    LDR R0, [SP]                        @ load value at SP into R0
+    ADD SP, SP, #4                      @ remove value from stack
+    MOV PC, R4                          @ return
     
 _Compare:
     CMP R3, # '+'                       @ compare with the constant character '+'
@@ -52,22 +52,22 @@ _Compare:
     BEQ _Max                            @ branch to equal handler
 
 _Sum:
-    ADD R0, R1, R2
-    MOV PC, LR
+    ADD R0, R1, R2                      @ add R1 and R2 and store the value in R0
+    MOV PC, LR                          @ return
     
 _Difference:
-    SUB R0, R1, R2
-    MOV PC, LR
+    SUB R0, R1, R2                      @ subtract R2 from R1 and store the value in R0
+    MOV PC, LR                          @ return
     
-_Product:
-    MUL R0, R1, R2
-    MOV PC, LR
+_Product:                           
+    MUL R0, R1, R2                      @ multiply R1 and R2 and store the value in R0
+    MOV PC, LR                          @ return
 
 _Max:
-    CMP R1, R2
-    MOVGT R0, R1
-    MOVLT R0, R2
-    MOV PC, LR
+    CMP R1, R2                          @ compare R1 and R2 
+    MOVGT R0, R1                        @ Move Greater Than
+    MOVLT R0, R2                        @ Move Less Than
+    MOV PC, LR                          @ return
     
 .data
 Operand_Prompt: .asciz "Please enter a positive number: "
