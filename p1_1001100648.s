@@ -1,5 +1,16 @@
-.global main
-.func main
+/******************************************************************************
+* @FILE p1_1001100648.s
+* @BRIEF simple calculator for the Raspbian OS using ARM assembly
+*
+* Simple program to find sum, difference, product and maximum out of 2 numbers
+*
+* @AUTHOR Santosh Pradhan
+******************************************************************************/    
+    
+    
+    
+    .global main
+    .func main
 
 main:
     BL _Operand                         @ branch to _Operand procedure with return
