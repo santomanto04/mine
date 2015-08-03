@@ -41,13 +41,13 @@ _Operation_Code:
     MOV PC, #4
     
 _Compare:
-    CMP R1, # '+'
+    CMP R3, # '+'
     BEQ _Sum
-    CMP R1, # '-'
+    CMP R3, # '-'
     BEQ _Difference
-    CMP R1, # '*'
+    CMP R3, # '*'
     BEQ _Product
-    CMP R1, # 'M'
+    CMP R3, # 'M'
     BEQ _Max
 
 _Sum:
