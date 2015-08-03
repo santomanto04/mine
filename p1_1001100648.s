@@ -19,7 +19,7 @@ main:
     
 _Operand:
     MOV R4, LR                          @ store LR since printf call overwrites
-    SUB SP, SP #4                       @ make room for stack
+    SUB SP, SP, #4                       @ make room for stack
     LDR R0, =Operand_Prompt             @ RO contains formatted string address
     BL printf                           @ call printf
     LDR R0, =Input_Value                @ R0 contains formatted string address
@@ -31,7 +31,7 @@ _Operand:
     
 _Operation_Code:
     MOV R4, LR                          @ store LR since printf call overwrites
-    SUB SP, SP #4                       @ make room for stack
+    SUB SP, SP, #4                       @ make room for stack
     LDR R0, =Operation_Code_Prompt      @ R0 contains formatted string address
     BL printf                           @ call printf
     LDR R0, =Input_Operator             @ R0 contains formatted string address
