@@ -2,32 +2,32 @@
 .func main
 
 main:
-    BL _Operand
-    MOV R5, R0
-    BL _Operation_Code
-    MOV R6, R0
-    BL _Operand
-    MOV R7, R0
-    MOV R1, R5
-    MOV R3, R6
-    MOV R2, R7
-    BL _Compare
-    MOV R1, R0
-    LDR R0, =Printf_Output
-    BL printf
-    B main
+    BL _Operand                         @ branch to _Operand
+    MOV R5, R0                          @ move return value from R0 to R5
+    BL _Operation_Code                  @ branch to _Operation_Code
+    MOV R6, R0                          @ move return value from R0 to R6
+    BL _Operand                         @ branch to _Operand
+    MOV R7, R0                          @ move return value from R0 to R7
+    MOV R1, R5                          @ move R5 to R1
+    MOV R3, R6                          @ move R6 to R3
+    MOV R2, R7                          @ move R7 to R2
+    BL _Compare                         @ branch to _Compare
+    MOV R1, R0                          @ move R0 to R1
+    LDR R0, =Printf_Output              @ R0 contains formatted string address
+    BL printf                           @ call printf
+    B main                              @ call main (to form a loop)
     
 _Operand:
-    MOV R4, LR
-    SUB SP, SP #4
-    LDR R0, =Operand_Prompt
-    BL printf
-    LDR R0, =Input_Value
-    MOV R1, SP
-    BL scanf
-    LDR R0, [SP]
-    ADD SP, SP, #4
-    MOV PC, R4
+    MOV R4, LR                          @ store LR since printf call overwrites
+    SUB SP, SP #4                       @ make room for stack
+    LDR R0, =Operand_Prompt             @ RO contains formatted string address
+    BL printf                           @ call printf
+    LDR R0, =Input_Value                @ R0 contains formatted string address
+    MOV R1, SP                          @ move SP to R1 to store entry of stack
+    BL scanf                            @ call scanf
+    LDR R0, [SP]                        @ load value at SP into R0
+    ADD SP, SP, #4                      
+    MOV PC, R4                          
     
 _Operation_Code:
     MOV R4, LR
@@ -42,14 +42,14 @@ _Operation_Code:
     MOV PC, R4
     
 _Compare:
-    CMP R3, # '+'
-    BEQ _Sum
-    CMP R3, # '-'
-    BEQ _Difference
-    CMP R3, # '*'
-    BEQ _Product
-    CMP R3, # 'M'
-    BEQ _Max
+    CMP R3, # '+'                       @ compare with the constant character '+'
+    BEQ _Sum                            @ branch to equal handler
+    CMP R3, # '-'                       @ compare with the constant character '-'
+    BEQ _Difference                     @ branch to equal handler
+    CMP R3, # '*'                       @ compare with the constant character '*'
+    BEQ _Product                        @ branch to equal handler
+    CMP R3, # 'M'                       @ compare with the constant character 'M'
+    BEQ _Max                            @ branch to equal handler
 
 _Sum:
     ADD R0, R1, R2
