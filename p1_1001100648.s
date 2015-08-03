@@ -13,7 +13,8 @@ main:
     MOV R3, R7
     BL _Compare
     MOV R1, R0
-    BL _Print
+    LDR R0, =Printf_Output
+    BL printf
     B main
     
 _Operand:
@@ -48,12 +49,6 @@ _Compare:
     BEQ _Product
     CMP R1, # 'M'
     BEQ _Max
-
-_Print:
-    MOV R4, LR 
-    LDR R0, =Printf_Output
-    BL printf
-    MOV PC, LR
 
 _Sum:
     ADD R0, R1, R2
