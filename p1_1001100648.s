@@ -9,8 +9,8 @@ main:
     BL _Operand
     MOV R7, R0
     MOV R1, R5
-    MOV R2, R6
-    MOV R3, R7
+    MOV R3, R6
+    MOV R2, R7
     BL _Compare
     MOV R1, R0
     LDR R0, =Printf_Output
@@ -19,18 +19,19 @@ main:
     
 _Operand:
     MOV R4, LR
-    SuB SP, SP #4
+    SUB SP, SP #4
     LDR R0, =Operand_Prompt
     BL printf
     LDR R0, =Input_Value
     MOV R1, SP
     BL scanf
     LDR R0, [SP]
-    MOV PC, #4
+    ADD SP, SP, #4
+    MOV PC, R4
     
 _Operation_Code:
     MOV R4, LR
-    SuB SP, SP #4
+    SUB SP, SP #4
     LDR R0, =Operation_Code_Prompt
     BL printf
     LDR R0, =Input_Operator
@@ -38,7 +39,7 @@ _Operation_Code:
     BL scanf
     LDR R0, [SP]
     ADD SP, SP, #4
-    MOV PC, #4
+    MOV PC, R4
     
 _Compare:
     CMP R3, # '+'
@@ -71,7 +72,7 @@ _Max:
 .data
 Operand_Prompt: .asciz "Please enter a positive number: "
 Input_Value: .asciz "%d"
-Operation_Code_Prompt: .asciz "Please enter one of the operation code from (+,-,*,m): "
+Operation_Code_Prompt: .asciz "Please enter one of the operation code from (+,-,*,M): "
 Input_Operator: .asciz "%s"
 Printf_Output: .asciz "The output based on the entered operation code is : %d\n"
     
