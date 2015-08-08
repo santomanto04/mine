@@ -1,8 +1,8 @@
 /******************************************************************************
 * @FILE p2_1001100648.s
-* @BRIEF simple calculator for the Raspbian OS using ARM assembly
-*
-* Simple program to find sum, difference, product and maximum out of 2 numbers
+* 
+* Simple program to implement an iterative solution for computing the GCD of 
+* two positive integers
 *
 * @AUTHOR Santosh Pradhan
 ******************************************************************************/    
@@ -35,11 +35,40 @@ _Operand:
     MOV PC, R4                          @ return
     
 GCD_ITERATIVE:
-    CMP      R2, R1
-    SUBGT    R0, R2, R1
-    SUBLE    R0, R0, R1
-    BNE      GCD_ITERATIVE
-  
+    MOV R8, R2
+    B _mainloop
+    _loop1:
+          MOV R1, R6
+          MOV R2, R7
+          SUB R8, R8, #1
+          B _mainloop
+    _mainloop:
+          B _modloopcheck1
+          
+          _modloop1:
+                SUB R1, R1, R8
+            
+          _modloopcheck1:
+                CMP R1, R8
+                BHS _modloop1
+                
+          B _modloopcheck2
+          
+          _modloop2:
+                SUB R2, R2, R8
+                
+          _modloopcheck2:
+                CMP R2, R8
+                BHS _modloop2
+          MOV R5, R1
+          MOV R9, R2
+          CMP R5, #0
+          BNE _loop1
+          CMP R9, #0
+          BNE _loop1
+          MOV R0, R8
+          MOV PC, LR
+          
     
     .data
 Operand_Prompt: .asciz "Please enter a positive number: "
