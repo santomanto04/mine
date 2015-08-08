@@ -35,37 +35,37 @@ _Operand:
     MOV PC, R4                          @ return
     
 GCD_ITERATIVE:
-    MOV R7, R2
-    B _iteration
+    MOV R7, R2                          @ copy input register R2 to register R7
+    B _iteration                        @ call _iteration 
     
     _iteration:
           
           _mod1:
-                SUB R1, R1, R7
+                SUB R1, R1, R7          @ subtract R7 from R1 and copy to R1
                 
-          CMP R1, R7
-          BHS _mod1
+          CMP R1, R7                    @ check to see if R1 >= R7
+          BHS _mod1                     @ continue loop if R1 >= R7
           
           _mod2:
-                SUB R2, R2, R7
+                SUB R2, R2, R7          @ subtract R7 from R2 and copy to R2
         
-          CMP R2, R7
-          BHS _mod2
+          CMP R2, R7                    @ check to see if R2 >= R7
+          BHS _mod2                     @ continue loop if R2 >= R7
           
-          MOV R8, R1
-          MOV R9, R2
-          CMP R8, #0
-          BNE _option
-          CMP R9, #0
-          BNE _option
-          MOV R0, R7
-          MOV PC, LR
+          MOV R8, R1                    @ copy input register R1 to R8
+          MOV R9, R2                    @ copy input register R2 to R9
+          CMP R8, #0                    @ check to see if R8 >= 0
+          BNE _option                   @ branch to not equal handler
+          CMP R9, #0                    @ check to see if R9 >= 0
+          BNE _option                   @ branch to not equal handler
+          MOV R0, R7                    @ move remainder to R0
+          MOV PC, LR                    @ return
           
     _option:
-          MOV R1, R5
-          MOV R2, R6
-          SUB R7, R7, #1
-          B _iteration      
+          MOV R1, R5                    @ copy register R5 to input register R1
+          MOV R2, R6                    @ copy register R6 to input register R2
+          SUB R7, R7, #1                @ subtract 1 from R7 and copy to R7
+          B _iteration                  @ call _iteration
     
     .data
 Operand_Prompt: .asciz "Please enter a positive number: "
