@@ -35,40 +35,37 @@ _Operand:
     MOV PC, R4                          @ return
     
 GCD_ITERATIVE:
-    MOV R8, R2
-    B _mainloop
-    _loop1:
-          MOV R1, R6
-          MOV R2, R7
-          SUB R8, R8, #1
-          B _mainloop
-    _mainloop:
-          B _modloopcheck1
+    MOV R7, R2
+    B _iteration
+    
+    _iteration:
           
-          _modloop1:
-                SUB R1, R1, R8
-            
-          _modloopcheck1:
-                CMP R1, R8
-                BHS _modloop1
+          _mod1:
+                SUB R1, R1, R7
                 
-          B _modloopcheck2
+          CMP R1, R7
+          BHS _mod1
           
-          _modloop2:
-                SUB R2, R2, R8
-                
-          _modloopcheck2:
-                CMP R2, R8
-                BHS _modloop2
-          MOV R5, R1
+          _mod2:
+                SUB R2, R2, R7
+        
+          CMP R2, R7
+          BHS _mod2
+          
+          MOV R8, R1
           MOV R9, R2
-          CMP R5, #0
-          BNE _loop1
+          CMP R8, #0
+          BNE _option
           CMP R9, #0
-          BNE _loop1
-          MOV R0, R8
+          BNE _option
+          MOV R0, R7
           MOV PC, LR
           
+    _option:
+          MOV R1, R5
+          MOV R2, R6
+          SUB R7, R7, #1
+          B _iteration      
     
     .data
 Operand_Prompt: .asciz "Please enter a positive number: "
