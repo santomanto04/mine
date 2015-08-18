@@ -47,8 +47,9 @@ _calc_result:
     MOV R8, R1           @ store R1 value in R8
     MOV R9, R1           @ store R1 value in R9
     ADD R7, R7, R1       @ add R7 and R1 and store in R7
-    _loop2: ADD R7, R7, R1
+    _loop2: 
             POP {R1}             @ remove a value from the stack
+            ADD R7, R7, R1       @ add R7 and R1 and store in R7
             CMP R1, R8           @ compare R1 and R8
             MOVLT R8, R1         @ if R1 < R8 then update R8 with R1 value
             CMP R1, R9           @ compare R1 and R9
